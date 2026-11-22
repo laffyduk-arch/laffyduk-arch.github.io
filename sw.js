@@ -10,7 +10,11 @@
 // story. Those don't go through the app's own requests, so the helper hands
 // each one to the studio running in the app's open page, and returns its
 // answer. Nothing goes to the web host.
-const CACHE = "studio-app-v2";
+const CACHE = "studio-app-v3";
+// Only the helper's own older stores are cleared when the app updates. The
+// model on your phone is kept by the page in stores of its own ("webllm/…",
+// track 160): those are never the helper's to clear (track 163, ruling MK-1).
+const OWN = "studio-app-";
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
@@ -19,7 +23,7 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim()),
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith(OWN) && k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim()),
   );
 });
 
