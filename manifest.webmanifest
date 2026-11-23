@@ -1,6 +1,6 @@
 {
-  "name": "The studio",
-  "short_name": "Studio",
+  "name": "Bygmester Studio",
+  "short_name": "Bygmester",
   "description": "Write your story once, and make it into many things. Everything stays on this phone.",
   "start_url": "/",
   "scope": "/",
